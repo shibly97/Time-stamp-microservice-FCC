@@ -20,13 +20,16 @@ app.get("/", function(req, res) {
 
 // your first API endpoint...
 app.get("/api/timestamp/:date_string", function(req, res) {
-  
-  res.json({ greeting: req.params });
+  var date = new Date(req.params.date_string);
+  if (date.toUTCString() == "Invalid Date") {
+    return res.json({ error: "Invalid Date" });
+  }
+  res.json({ unix: date.getTime(), utc: date.toUTCString() });
 });
 
 app.get("/api/timestamp", function(req, res) {
-  
-  res.json({ Date : req.params });
+  var date = new Date();
+  res.json({ unix: date.getTime(), utc: date.toUTCString() });
 });
 
 // listen for requests :)
